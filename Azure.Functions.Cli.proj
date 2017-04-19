@@ -68,6 +68,11 @@
     </ItemGroup>
   </Target>
 
+  <Target Name="Build" DependsOnTargets="RestorePackages;GetBinplace">
+    <MSBuild Projects="@(Binplace)"
+             BuildInParallel="$(BuildInParallel)"/>
+  </Target>
+
   <Target Name="GetOfficialProjects" Returns="@(OfficialProjects)">
     <ItemGroup>
       <OfficialProjects Include="%(Build.FullPath)">
