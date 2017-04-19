@@ -88,24 +88,24 @@
       <Code Type="Fragment" Language="cs">
         <![CDATA[
                 Version minimumRequiredVersion;
-                
+
                 if (!Version.TryParse(MinimumVersion, out minimumRequiredVersion))
                 {
                     Log.LogError("MinimumVersion '{0}' is not a valid Version.", MinimumVersion);
                 }
-        
+
                 try
                 {
                     OutputFileName = Path.GetFullPath(OutputFileName);
-                    
+
                     if (File.Exists(OutputFileName))
                     {
                         // If NuGet.exe exists but is less than the minimum required version, delete it so that the
                         // latest version will be downloaded.
                         FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(OutputFileName);
-                        
+
                         string toParse;
-                        
+
                         if (versionInfo != null && versionInfo.ProductVersion != null)
                         {
                             toParse = versionInfo.ProductVersion;
@@ -114,10 +114,10 @@
                         {
                             toParse = null;
                         }
-                        
+
                         Version current;
                         Version parsed;
-                        
+
                         if (toParse != null && Version.TryParse(toParse, out parsed))
                         {
                             current = parsed;
@@ -127,18 +127,18 @@
                             // Treat a missing or invalid version like V0.0 (which will trigger a delete and download).
                             current = new Version(0, 0);
                         }
-                        
+
                         if (current < minimumRequiredVersion)
                         {
                             File.Delete(OutputFileName);
                         }
                     }
-                    
+
                     if (!File.Exists(OutputFileName))
                     {
                         Log.LogMessage("Downloading latest version of NuGet.exe...");
                         WebClient webClient = new WebClient();
-                        webClient.DownloadFile("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe", OutputFileName);
+                        webClient.DownloadFile("https://nuget.org/nuget.exe", OutputFileName);
                     }
 
                     return true;
