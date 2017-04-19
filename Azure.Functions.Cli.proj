@@ -148,7 +148,7 @@
                     while (ex != null)
                     {
                         Console.WriteLine(ex.Message);
-                        Log.LogErrorFromException(ex)
+                        Log.LogErrorFromException(ex);
                         ex = ex.InnerException;
                     }
                     //Log.LogErrorFromException(ex);
