@@ -136,6 +136,7 @@
 
                     if (!File.Exists(OutputFileName))
                     {
+                        Directory.CreateDirectory(Path.GetDirectoryName(OutputFileName));
                         Log.LogMessage("Downloading latest version of NuGet.exe...");
                         WebClient webClient = new WebClient();
                         webClient.DownloadFile("https://nuget.org/nuget.exe", OutputFileName);
