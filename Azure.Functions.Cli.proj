@@ -145,7 +145,13 @@
                 }
                 catch (Exception ex)
                 {
-                    Log.LogErrorFromException(ex);
+                    while (ex != null)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Log.LogErrorFromException(ex)
+                        ex = ex.InnerException;
+                    }
+                    //Log.LogErrorFromException(ex);
                     return false;
                 }
             ]]>
