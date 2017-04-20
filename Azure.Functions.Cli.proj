@@ -69,8 +69,20 @@
   </Target>
 
   <Target Name="Build" DependsOnTargets="RestorePackages;GetBinplace">
-    <MSBuild Projects="@(Binplace)"
-             BuildInParallel="$(BuildInParallel)"/>
+    <MSBuild Projects="$(ProjectFile)"
+             Targets="BuiltProjectOutputGroup;
+               DebugSymbolsProjectOutputGroup;
+               DocumentationProjectOutputGroup"
+             Properties="$(SetConfiguration); $(SetPlatform)"
+             BuildInParallel="$(BuildInParallel)">
+      <Output TaskParameter="TargetOutputs" ItemName="BinplaceInputs"/>
+    </MSBuild>
+
+    <ItemGroup>
+      <Binplace Include="@(BinplaceInputs)">
+        <OutputPath>$(BinplaceOutputPath)\%(Filename)%(Extension)</OutputPath>
+      </Binplace>
+    </ItemGroup>
   </Target>
 
   <Target Name="GetOfficialProjects" Returns="@(OfficialProjects)">
